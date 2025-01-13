@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Boucher - Hotel Management</title>
+    <link rel="stylesheet" href="../css/room_boucher.css"> <!-- Link to your CSS file -->
+    <script>
+        // Function to handle form submission
+        async function submitRoomBoucher(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+            
+            // Get the form data
+            const formData = new FormData(document.getElementById("room_boucher_form"));
+            
+            try {
+                // Make the POST request to the backend using fetch
+                const response = await fetch('http://127.0.0.1:8000/submit_room_boucher', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                // Check if the response is successful
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    showError(errorData.detail);  // Display error message from server
+                } else {
+                    const data = await response.json();
+                    showSuccess("Room booked successfully!");  // Display success message
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                showError("An error occurred while submitting the form."); // Display generic error
+            }
+        }
+
+        // Function to show error messages
+        function showError(message) {
+            const errorContainer = document.getElementById("error-message");
+            errorContainer.textContent = message;
+            errorContainer.style.display = "block";  // Make the error message visible
+        }
+
+        // Function to show success messages
+        function showSuccess(message) {
+            const successContainer = document.getElementById("success-message");
+            successContainer.textContent = message;
+            successContainer.style.display = "block";  // Make the success message visible
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Room Booking Information</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="services.html">Services</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        <section class="room-boucher">
+            <h2>Enter Room Booking Details</h2>
+            <p>Fill in the details below to create a room booking record:</p>
+
+            <!-- Room Boucher Form -->
+            <form id="room_boucher_form" onsubmit="submitRoomBoucher(event)">
+                <label for="room_id">Room ID:</label>
+                <input type="number" id="room_id" name="room_id" required>
+            
+                <label for="guest_name">Guest Name:</label>
+                <input type="text" id="guest_name" name="guest_name" required>
+            
+                <label for="booking_date">Booking Date:</label>
+                <input type="date" id="booking_date" name="booking_date" required>
+            
+                <label for="check_in_date">Check-in Date:</label>
+                <input type="date" id="check_in_date" name="check_in_date" required>
+            
+                <label for="check_out_date">Check-out Date:</label>
+                <input type="date" id="check_out_date" name="check_out_date" required>
+            
+                <label for="total_amount">Total Amount:</label>
+                <input type="number" step="100" id="total_amount" name="total_amount" required>
+            
+                <label for="room_type">Room Type:</label>
+                <select id="room_type" name="room_type" required>
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                    <option value="Suite">Suite</option>
+                </select>
+            
+                <label for="status">Booking Status:</label>
+                <select id="status" name="status" required>
+                    <option value="Booked">Booked</option>
+                    <option value="Checked-in">Checked-in</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            
+                <button type="submit">Submit Booking</button>
+            </form>
+
+            <!-- Error Message Display -->
+            <div id="error-message" style="color: red; display: none;"></div>
+
+            <!-- Success Message Display -->
+            <div id="success-message" style="color: green; display: none;"></div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Hotel Name. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>

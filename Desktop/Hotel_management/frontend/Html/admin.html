@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Hotel Management</title>
+    <link rel="stylesheet" href="../css/admin.css"> <!-- Link to the CSS file -->
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Admin Login</h1>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        <section class="login-container">
+            <!-- Login Form -->
+            <form class="login-form" action="http://127.0.0.1:8000/adminlogin" method="POST">
+                <h2>Login to your Admin Account</h2>
+
+                <!-- Username -->
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <!-- Password -->
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <!-- Submit Button -->
+                <button type="submit">Login</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Hotel Management System. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>
+

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management</title>
+    <link rel="stylesheet" href="../css/user.css">
+    <script>
+        async function loginUser(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            // Create FormData object to send data
+            const formData = new FormData();
+            formData.append("email", email);
+            formData.append("password", password);
+
+            try {
+                // Make the POST request to the backend
+                const response = await fetch('http://127.0.0.1:8000/user-login', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                // Check if the response is successful
+                if (response.ok) {
+                    if (result.success) {
+                        showSuccess(result.message);
+                        // Redirect to the services page
+                        window.location.href = "http://127.0.0.1:8000/static/html/services.html";
+                    } else {
+                        showError(result.message);
+                    }
+                } else {
+                    // Handle non-OK responses (e.g., 401 or 404)
+                    showError(result.message);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                showError("An error occurred while logging in. Please try again.");
+            }
+        }
+
+        function showError(message) {
+            const errorMessageDiv = document.getElementById("error-message");
+            errorMessageDiv.textContent = message;
+            errorMessageDiv.style.color = "red";
+            errorMessageDiv.style.display = "block"; // Show the error message
+        }
+
+        function showSuccess(message) {
+            const successMessageDiv = document.getElementById("success-message");
+            successMessageDiv.textContent = message;
+            successMessageDiv.style.color = "green";
+            successMessageDiv.style.display = "block"; // Show the success message
+        }
+    </script>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Hotel Management</h1>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        <!-- Registration Form -->
+        <section class="register-container">
+            <h2>Register</h2>
+            <form action="http://127.0.0.1:8000/user-register" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" name="phone">
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Register</button>
+            </form>
+        </section>
+
+        <!-- Login Form -->
+        <section class="login-container">
+            <h2>Login</h2>
+            <form id="login-form" onsubmit="loginUser(event)">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" name="email" required>
+
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="password" required>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <!-- Error and Success Message Divs -->
+            <div id="error-message" style="display: none;"></div>
+            <div id="success-message" style="display: none;"></div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Hotel Management System. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
